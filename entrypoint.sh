@@ -11,7 +11,9 @@ IONICE_CLASSDATA="${IONICE_CLASSDATA:-7}"
 BACKUP_TARGET="${BACKUP_TARGET:-/target}"
 
 PROMETHEUS_METRICS=${PROMETHEUS_METRICS:-true}
-PROMETHEUS_METRICS_PATH="${PROMETHEUS_METRICS_PATH:-/var/lib/node_exporter/backup-restic-sftp.prom}"
+# http://pushgateway:9091
+PUSHGATEWAY_URL="${PUSHGATEWAY_URL:-}"
+PROMETHEUS_JOB_NAME="${PROMETHEUS_JOB_NAME:-restic-sftp-backup}"
 
 if [ ! -z "$RESTIC_FORGET_FLAGS" ]; then
     echo "-> Running 'restic forget $RESTIC_FORGET_FLAGS' ..."
@@ -28,8 +30,8 @@ ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" restic backup --hostname "$REST
 SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
 SFTP_DF_OUTPUT="$(echo "df" | sftp "${SFTP_SERVER}" | tail -n1)"
 
-if [ $PROMETHEUS_METRICS ]; then
-    cat <<EOF > "$PROMETHEUS_METRICS_PATH"
+if [ $PROMETHEUS_METRICS ] && [ -n "$PUSHGATEWAY_URL" ]; then
+    cat <<EOF | curl --data-binary @- "${PUSHGATEWAY_URL}/metrics/job/${PROMETHEUS_JOB_NAME}/instance/${RESTIC_HOSTNAME}"
 # HELP sftp_backup_space_size SFTP backup space size in bytes.
 # TYPE sftp_backup_space_size gauge
 sftp_backup_space_size{server="${SFTP_SERVER}"} $(echo "${SFTP_DF_OUTPUT}" | awk '{print $1}')

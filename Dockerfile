@@ -7,7 +7,6 @@ RUN apt-get -q update && \
     bzip2 -d /usr/local/bin/restic.bz2 && \
     chmod 755 /usr/local/bin/restic && \
     mkdir -p /var/lib/node_exporter && \
-    apt-get --purge remove -y curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
