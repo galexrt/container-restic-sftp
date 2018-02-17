@@ -9,3 +9,6 @@ Image available from:
 * [**Docker Hub**](https://hub.docker.com/r/galexrt/restic-sftp)
 
 This is a Docker image which simply contains Restic + SSH + Wrapper for simply SFTP backups with restic.
+
+## Versions
+Each git tag + `master` branch is built as an image.
