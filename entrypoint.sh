@@ -27,10 +27,10 @@ echo "==="
 echo "-> Running 'restic backup $BACKUP_TARGET' ..."
 ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" restic backup --hostname "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
 
-SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
-SFTP_DF_OUTPUT="$(echo "df" | sftp "${SFTP_SERVER}" | tail -n1)"
-
 if [ $PROMETHEUS_METRICS ] && [ -n "$PUSHGATEWAY_URL" ]; then
+    SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
+    SFTP_DF_OUTPUT="$(echo "df" | sftp "${SFTP_SERVER}" | tail -n1)"
+
     cat <<EOF | curl --data-binary @- "${PUSHGATEWAY_URL}/metrics/job/${PROMETHEUS_JOB_NAME}/instance/${RESTIC_HOSTNAME}"
 # HELP sftp_backup_space_size SFTP backup space size in bytes.
 # TYPE sftp_backup_space_size gauge
