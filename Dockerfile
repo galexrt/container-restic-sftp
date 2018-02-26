@@ -1,5 +1,7 @@
 FROM debian:stretch-slim
 
+LABEL maintainer="Alexander Trost <galexrt@googlemail.com>"
+
 ENV RESTIC_VERSION="0.8.2"
 
 RUN apt-get -q update && \
