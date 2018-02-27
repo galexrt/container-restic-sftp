@@ -7,6 +7,7 @@ RESTIC_PASSWORD_FILE="${RESTIC_PASSWORD_FILE:-}"
 RESTIC_FORGET_FLAGS="${RESTIC_FORGET_FLAGS:-}"
 IONICE_CLASS="${IONICE_CLASS:-2}"
 IONICE_CLASSDATA="${IONICE_CLASSDATA:-7}"
+NICE_ADJUSTMENT="${NICE_ADJUSTMENT:-19}"
 
 BACKUP_TARGET="${BACKUP_TARGET:-/target}"
 
@@ -25,7 +26,7 @@ restic snapshots --host "$RESTIC_HOSTNAME"
 echo "==="
 
 echo "-> Running 'restic backup $BACKUP_TARGET' ..."
-ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" restic backup --hostname "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
+ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" nice -n "$NICE_ADJUSTMENT" restic backup --hostname "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
 
 if [ $PROMETHEUS_METRICS ] && [ -n "$PUSHGATEWAY_URL" ]; then
     SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
