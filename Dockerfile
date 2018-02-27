@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 
 LABEL maintainer="Alexander Trost <galexrt@googlemail.com>"
 
-ENV RESTIC_VERSION="0.8.2"
+ENV RESTIC_VERSION="0.8.3"
 
 RUN apt-get -q update && \
     apt-get upgrade -y && \
@@ -11,6 +11,7 @@ RUN apt-get -q update && \
     bzip2 -d /usr/local/bin/restic.bz2 && \
     chmod 755 /usr/local/bin/restic && \
     mkdir -p /var/lib/node_exporter && \
+    apt-get remove -y bzip2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
