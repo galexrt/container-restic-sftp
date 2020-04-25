@@ -9,16 +9,17 @@ IONICE_CLASS="${IONICE_CLASS:-2}"
 IONICE_CLASSDATA="${IONICE_CLASSDATA:-7}"
 NICE_ADJUSTMENT="${NICE_ADJUSTMENT:-19}"
 
+# Directory to backup
 BACKUP_TARGET="${BACKUP_TARGET:-/target}"
 
-PROMETHEUS_METRICS=${PROMETHEUS_METRICS:-true}
+PROMETHEUS_METRICS="${PROMETHEUS_METRICS:-true}"
 # http://pushgateway:9091
 PUSHGATEWAY_URL="${PUSHGATEWAY_URL:-}"
 PROMETHEUS_JOB_NAME="${PROMETHEUS_JOB_NAME:-restic-sftp-backup}"
 
-if [ ! -z "$RESTIC_FORGET_FLAGS" ]; then
+if [ -n "$RESTIC_FORGET_FLAGS" ]; then
     echo "-> Running 'restic forget $RESTIC_FORGET_FLAGS' ..."
-    restic forget --host "$RESTIC_HOSTNAME" $RESTIC_FORGET_FLAGS
+    restic forget --host "$RESTIC_HOSTNAME" "$RESTIC_FORGET_FLAGS"
 fi
 
 echo "=== Restic Snapshots"
@@ -28,7 +29,7 @@ echo "==="
 echo "-> Running 'restic backup $BACKUP_TARGET' ..."
 ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" nice -n "$NICE_ADJUSTMENT" restic backup --hostname "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
 
-if [ $PROMETHEUS_METRICS ] && [ -n "$PUSHGATEWAY_URL" ]; then
+if [ "$PROMETHEUS_METRICS" == "true" ] && [ -n "$PUSHGATEWAY_URL" ]; then
     SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
     SFTP_DF_OUTPUT="$(echo "df" | sftp "${SFTP_SERVER}" | tail -n1)"
 
