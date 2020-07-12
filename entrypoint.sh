@@ -27,7 +27,7 @@ restic snapshots --host "$RESTIC_HOSTNAME"
 echo "==="
 
 echo "-> Running 'restic backup $BACKUP_TARGET' ..."
-ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" nice -n "$NICE_ADJUSTMENT" restic backup --hostname "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
+ionice -c "$IONICE_CLASS" -n "$IONICE_CLASSDATA" nice -n "$NICE_ADJUSTMENT" restic backup --host "$RESTIC_HOSTNAME" "$BACKUP_TARGET"
 
 if [ "$PROMETHEUS_METRICS" == "true" ] && [ -n "$PUSHGATEWAY_URL" ]; then
     SFTP_SERVER="$(echo "$RESTIC_REPOSITORY" | cut -d':' -f2)"
