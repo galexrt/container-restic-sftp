@@ -1,16 +1,13 @@
 # docker-restic-sftp
 
-[![](https://images.microbadger.com/badges/image/galexrt/restic-sftp.svg)](https://microbadger.com/images/galexrt/restic-sftp "Get your own image badge on microbadger.com")
+Container image with Restic + SSH + Wrapper for simply SFTP backups with restic.
 
-[![Docker Repository on Quay.io](https://quay.io/repository/galexrt/restic-sftp/status "Docker Repository on Quay.io")](https://quay.io/repository/galexrt/restic-sftp)
+Container Image available from:
 
-Image available from:
+* [Quay.io](https://quay.io/repository/galexrt/restic-sftp)
+* [GHCR.io](https://github.com/users/galexrt/packages/container/package/restic-sftp)
 
-* [**Quay.io**](https://quay.io/repository/galexrt/restic-sftp)
-* [**Docker Hub**](https://hub.docker.com/r/galexrt/restic-sftp)
+Container Image Tags:
 
-This is a Docker image which simply contains Restic + SSH + Wrapper for simply SFTP backups with restic.
-
-## Versions
-
-Each git tag + `master` branch is built as an image.
+* `main` - Latest build of the `main` branch.
+* `vYYYYmmdd-HHMMSS-NNN` - Latest build of the container with date of the build.
