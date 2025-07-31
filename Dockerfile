@@ -1,9 +1,9 @@
-FROM debian:buster-slim
+FROM docker.io/library/debian:bullseye-slim
 
 ARG BUILD_DATE="N/A"
 ARG REVISION="N/A"
 
-ARG RESTIC_VERSION="0.15.2"
+ARG RESTIC_VERSION="0.18.0"
 ARG RESTIC_OS="linux"
 ARG RESTIC_ARCH="amd64"
 
