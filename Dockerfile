@@ -1,9 +1,9 @@
-FROM docker.io/library/debian:bullseye-slim
+FROM docker.io/library/debian:trixie-slim
 
 ARG BUILD_DATE="N/A"
 ARG REVISION="N/A"
 
-ARG RESTIC_VERSION="0.18.0"
+ARG RESTIC_VERSION="0.19.1"
 ARG RESTIC_OS="linux"
 ARG RESTIC_ARCH="amd64"
 
